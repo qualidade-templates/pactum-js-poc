@@ -1,0 +1,24 @@
+{
+  "name": "pactum-js-poc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "POC ServeRest com PactumJS — mesmos fluxos do bruno-poc",
+  "scripts": {
+    "test": "mocha --config .mocharc.json",
+    "test:e2e": "mocha --config .mocharc.json 'tests/e2e/**/*.spec.ts'"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.15.21",
+    "mocha": "^11.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "pactum": "^3.7.6"
+  }
+}

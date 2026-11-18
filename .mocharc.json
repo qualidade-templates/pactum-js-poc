@@ -1,0 +1,8 @@
+{
+  "extension": ["ts"],
+  "spec": ["tests/e2e/**/*.spec.ts"],
+  "require": ["ts-node/register", "tests/support/setup.ts"],
+  "timeout": 30000,
+  "exit": true,
+  "reporter": "spec"
+}
