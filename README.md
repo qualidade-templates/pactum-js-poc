@@ -11,8 +11,10 @@ Os mesmos fluxos do `bruno-poc` / `insomnia-poc`, em código, com camadas separa
 - **DTO** — contratos de request/response
 - **Factory** — dados fake dinâmicos
 - **HttpClient** — abstração + implementação Pactum
-- **Services** — um por recurso (user, auth, product, cart)
+- **Clients** — um por recurso (user, auth, product, cart); montam a request e devolvem o chain
 - **Facade** — `ServeRestClient` agrupa tudo
+
+Os clients **não** fazem assert. Status, payload e regras de negócio ficam nos testes, que encadeiam `.expectStatus()`, `.expectJsonLike()`, etc. no Spec retornado.
 
 Cobertura:
 
@@ -29,10 +31,9 @@ src/
   config/       # BASE_URL
   dto/
   factories/
-  clients/      # IHttpClient, PactumHttpClient, ServeRestClient
-  services/
+  clients/      # HttpClient + clients de domínio + ServeRestClient
 tests/
-  e2e/
+  e2e/          # asserts e orquestração
   support/
 ```
 
@@ -50,6 +51,16 @@ Só o E2E completo:
 npm run test:e2e -- --grep "fluxo E2E"
 ```
 
+Exemplo de uso do chain no teste:
+
+```ts
+const response = await api.users
+  .create(user)
+  .expectStatus(201)
+  .expectJsonLike({ message: 'Cadastro realizado com sucesso' })
+  .toss();
+```
+
 ## Environment
 
 | Variável   | Default                   |
@@ -58,8 +69,8 @@ npm run test:e2e -- --grep "fluxo E2E"
 
 ## Princípios usados
 
-- **SRP** — cada service cuida de um recurso
-- **DIP** — services dependem de `IHttpClient`, não do Pactum
+- **SRP** — client monta request; teste valida resposta
+- **DIP** — clients de domínio dependem de `IHttpClient`, não do Pactum
 - **Facade** — `ServeRestClient` como ponto único de entrada
 - **Factory** — payloads únicos por execução
 

@@ -13,7 +13,8 @@ export interface RequestOptions {
 
 /**
  * Abstração do cliente HTTP (Dependency Inversion).
- * Services dependem desta interface, não do Pactum diretamente.
+ * Clients de domínio dependem desta interface, não do Pactum diretamente.
+ * Retorna o chain do Spec para o teste aplicar asserts.
  */
 export interface IHttpClient {
   request(options: RequestOptions): PactumSpec;
